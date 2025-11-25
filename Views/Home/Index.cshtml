@@ -1,8 +1,63 @@
 ﻿@{
     ViewData["Title"] = "ShriGo";
 }
-
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<link rel="stylesheet" href="~/css/Home.css" asp-append-version="true" />
+<div>
+    <!-----------------Row1-Top --------------------------------->
+    <div class="row" style="padding-left:6px; padding-right:6px">
+        <img src="~/img/LandingPage.png" />
+    </div>
+    <br />
+<div class="container-fluid">
+    <h1 class="display-4">Welcome to ShriGo</h1>
 </div>
+
+<div class="container-fluid">
+
+        <form class="d-flex" role="search">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+</div>
+    <div class="container-fluid">
+        <h3>List of Rides available </h3>
+        <datalist>
+
+        </datalist>
+        </div>
+</div>
+<!---------------Script------------------------------------------------->
+<script>
+
+       /*-------Slide Show---------------------------------*/
+     $(document).ready(function(){
+
+       $(window).scroll(function() {
+         $(".slideanim").each(function(){
+           var pos = $(this).offset().top;
+
+           var winTop = $(window).scrollTop();
+             if (pos < winTop + 600) {
+               $(this).addClass("slide");
+             }
+         });
+       });
+     })
+     /*-------Google Map---------------------------------*/
+     function myMap() {
+     var mapProp= {
+       center:new google.maps.LatLng(17.512,78.47628),
+       zoom:5,
+     };
+     var map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
+     }
+     /*-------Landing video row 2---------------------------------*/
+    var video=getElementsByTagName('video');
+     function removeControls(video){
+       video.removeAttribute('controls');
+     }
+     window.onload=removeControls(video);
+      window.onload=onloadstart(video);
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY&callback=myMap"></script>
+<script src="https://smtpjs.com/v3/smtp.js"></script>
