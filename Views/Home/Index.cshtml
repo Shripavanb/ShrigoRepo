@@ -22,41 +22,70 @@
 </div>
     <div class="container-fluid">
         <h3>List of Rides available </h3>
-        <div class="container mt-5">
-            <label for="contactInput" class="form-label">Search for a Contact</label>
-            <div class="input-group mb-3">
-                <input class="form-control" list="contactOptions" id="contactInput" placeholder="Type to search...">
-                <button class="btn btn-primary" type="button" id="contactButton" disabled>Contact</button>
-            </div>
-
-            <!-- Dynamic Datalist -->
-            <datalist id="contactOptions"></datalist>
-
-            <!-- Contact Modal -->
-            <div class="modal fade" id="contactModal" tabindex="-1" aria-labelledby="contactModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="contactModalLabel">Contact Details</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body" id="modalContactDetails">
-                            <!-- Contact info will be dynamically inserted here -->
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div id="data-container">
+            <!-- Dynamic content will be inserted here -->
         </div>
+
         </div>
 </div>
 <!---------------Script------------------------------------------------->
 <script>
+            document.addEventListener('DOMContentLoaded', () => {
+            const dataContainer = document.getElementById('data-container');
 
+            // Fetch JSON data (if from a file)
+            fetch('data.json') // Replace 'data.json' with your file path
+                .then(response => response.json())
+                .then(data => {
+                    // Create an unordered list element
+                    const ul = document.createElement('ul');
+                    
+
+                    // Loop through the JSON data and create list items
+                    data.forEach(item => {
+                            const li = document.createElement('li');
+                            const contactButton  = document.createElement('button');
+                            li.innerHTML = `<strong>${item.Source}
+                                            </strong>: ${item.Desti}
+                                            </strong>: ${item.Via}
+                                            </strong>: ${item.Time}
+                                            </strong>: ${item.Date}`;
+                       
+                        contactButton.classList.add('btn', 'btn-info', 'btn-sm', 'ms-2'); // ms-2 for margin-start
+                        contactButton.textContent = 'Details';
+                        contactButton.addEventListener('click', () => {
+                                alert('Details for: ' + item.textContent.replace('Details', '').trim());
+                   
+                    });
+                             li.appendChild(contactButton);
+                        ul.appendChild(li);
+                        
+                    });
+
+                    // Append the created list to the container
+                    dataContainer.appendChild(ul);
+         
+                })
+                .catch(error => console.error('Error fetching data:', error));
+
+            // If JSON data is embedded directly in JavaScript:
+            // const embeddedData = [
+            //     { "name": "Embedded Item 1", "description": "Description for embedded item 1" },
+            //     { "name": "Embedded Item 2", "description": "Description for embedded item 2" }
+            // ];
+            //
+            // const embeddedUl = document.createElement('ul');
+            // embeddedData.forEach(item => {
+            //     const li = document.createElement('li');
+            //     li.innerHTML = `<strong>${item.name}</strong>: ${item.description}`;
+            //     embeddedUl.appendChild(li);
+            // });
+            // dataContainer.appendChild(embeddedUl);
+        });
        /*-------Slide Show---------------------------------*/
-     $(document).ready(function(){
+     $(document).ready(
+         
+         function(){
 
        $(window).scroll(function() {
          $(".slideanim").each(function(){
@@ -85,64 +114,7 @@
      window.onload=removeControls(video);
       window.onload=onloadstart(video);
 /*---------------------------------------------*/
-    // Sample dynamic data (e.g., from an API call)
-    const contacts = [
-        { name: "Alice Smith", email: "alice@example.com", phone: "555-1234" },
-        { name: "Bob Johnson", email: "bob@example.com", phone: "555-5678" },
-        { name: "Charlie Williams", email: "charlie@example.com", phone: "555-8765" },
-        { name: "David Brown", email: "david@example.com", phone: "555-4321" }
-    ];
-
-    document.addEventListener('DOMContentLoaded', () => {
-        const datalist = document.getElementById('contactOptions');
-        const contactInput = document.getElementById('contactInput');
-        const contactButton = document.getElementById('contactButton');
-        const modalDetails = document.getElementById('modalContactDetails');
-
-        // Function to populate the datalist dynamically
-        function populateDatalist() {
-            contacts.forEach(contact => {
-                const option = document.createElement('option');
-                // Store the full name as the value, and potentially other data using data attributes
-                option.value = contact.name;
-                // The label can also be used (though browser display is inconsistent)
-                option.label = contact.email;
-                datalist.appendChild(option);
-            });
-        }
-
-        // Function to handle input changes and enable/disable the button
-        function handleInputChange() {
-            const inputValue = contactInput.value;
-            const contactExists = contacts.some(contact => contact.name === inputValue);
-            contactButton.disabled = !contactExists; // Disable button if the entered value is not a valid contact name
-        }
-
-        // Function to handle the contact button click (opens modal)
-        function handleContactClick() {
-            const selectedName = contactInput.value;
-            const selectedContact = contacts.find(contact => contact.name === selectedName);
-
-            if (selectedContact) {
-                modalDetails.innerHTML = `
-                    <p><strong>Name:</strong> ${selectedContact.name}</p>
-                    <p><strong>Email:</strong> ${selectedContact.email}</p>
-                    <p><strong>Phone:</strong> ${selectedContact.phone}</p>
-                `;
-                // Manually show the Bootstrap modal
-                const contactModal = new bootstrap.Modal(document.getElementById('contactModal'));
-                contactModal.show();
-            }
-        }
-
-        // Initialize the datalist
-        populateDatalist();
-
-        // Add event listeners
-        contactInput.addEventListener('input', handleInputChange);
-        contactButton.addEventListener('click', handleContactClick);
-    });
-/*------------------------------------------------*/
+/*------------------------*/
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY&callback=myMap"></script>
 <script src="https://smtpjs.com/v3/smtp.js"></script>
