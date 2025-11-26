@@ -2,6 +2,7 @@
     ViewData["Title"] = "ShriGo";
 }
 <link rel="stylesheet" href="~/css/Home.css" asp-append-version="true" />
+<link href="cdn.jsdelivr.net" rel="stylesheet">
 <div>
     <!-----------------Row1-Top --------------------------------->
     <div class="row" style="padding-left:6px; padding-right:6px">
@@ -21,16 +22,70 @@
 </div>
     <div class="container-fluid">
         <h3>List of Rides available </h3>
-        <datalist>
+        <div id="data-container">
+            <!-- Dynamic content will be inserted here -->
+        </div>
 
-        </datalist>
         </div>
 </div>
 <!---------------Script------------------------------------------------->
 <script>
+            document.addEventListener('DOMContentLoaded', () => {
+            const dataContainer = document.getElementById('data-container');
 
+            // Fetch JSON data (if from a file)
+            fetch('data.json') // Replace 'data.json' with your file path
+                .then(response => response.json())
+                .then(data => {
+                    // Create an unordered list element
+                    const ul = document.createElement('ul');
+                    
+
+                    // Loop through the JSON data and create list items
+                    data.forEach(item => {
+                            const li = document.createElement('li');
+                            const contactButton  = document.createElement('button');
+                            li.innerHTML = `<strong>${item.Source}
+                                            </strong>: ${item.Desti}
+                                            </strong>: ${item.Via}
+                                            </strong>: ${item.Time}
+                                            </strong>: ${item.Date}`;
+                       
+                        contactButton.classList.add('btn', 'btn-info', 'btn-sm', 'ms-2'); // ms-2 for margin-start
+                        contactButton.textContent = 'Details';
+                        contactButton.addEventListener('click', () => {
+                                alert('Details for: ' + item.textContent.replace('Details', '').trim());
+                   
+                    });
+                             li.appendChild(contactButton);
+                        ul.appendChild(li);
+                        
+                    });
+
+                    // Append the created list to the container
+                    dataContainer.appendChild(ul);
+         
+                })
+                .catch(error => console.error('Error fetching data:', error));
+
+            // If JSON data is embedded directly in JavaScript:
+            // const embeddedData = [
+            //     { "name": "Embedded Item 1", "description": "Description for embedded item 1" },
+            //     { "name": "Embedded Item 2", "description": "Description for embedded item 2" }
+            // ];
+            //
+            // const embeddedUl = document.createElement('ul');
+            // embeddedData.forEach(item => {
+            //     const li = document.createElement('li');
+            //     li.innerHTML = `<strong>${item.name}</strong>: ${item.description}`;
+            //     embeddedUl.appendChild(li);
+            // });
+            // dataContainer.appendChild(embeddedUl);
+        });
        /*-------Slide Show---------------------------------*/
-     $(document).ready(function(){
+     $(document).ready(
+         
+         function(){
 
        $(window).scroll(function() {
          $(".slideanim").each(function(){
@@ -58,6 +113,9 @@
      }
      window.onload=removeControls(video);
       window.onload=onloadstart(video);
+/*---------------------------------------------*/
+/*------------------------*/
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY&callback=myMap"></script>
 <script src="https://smtpjs.com/v3/smtp.js"></script>
+<script src="cdn.jsdelivr.net"></script>
