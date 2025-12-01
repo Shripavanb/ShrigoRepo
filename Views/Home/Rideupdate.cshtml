@@ -2,3 +2,96 @@
 @model ShriGo.Views.Home.RideupdateModel
 @{
 }
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+    <title>The HTML Input to JSON</title>
+</head>
+
+<body>
+    <form id="dataForm" >
+        <label for="Date">Date:</label>
+        <input type="text" id="myInputDate" name="myInputDate" />
+        <br><br>
+
+        <label for="From">From:</label>
+        <input type="text" id="myInputFrom" name="myInputSource" />
+        <br><br>
+
+        <label for="To">To:</label>
+        <input type="text" id="myInputTo" name="myInputDesti" />
+        <br><br>
+
+        <label for="Via">Via:</label>
+        <input type="text" id="myInputVia" name="myInputVia" />
+        <br><br>
+
+
+        <label for="Time">Time:</label>
+        <input type="text" id="myInputTime" name="myInputTime" />
+        <br><br>
+
+
+        <button type="button" onclick="convertToJson()">Submit</button>
+    </form>
+    <div id="jsonOutput"></div>
+    <script src="script.js"></script>
+</body>
+
+</html>
+<script>
+        function convertToJson() {
+        let form = document.getElementById("dataForm");
+         let name = document.getElementById("Desti");
+        let formData = {};
+        for (let i = 0; i < form.elements.length; i++) {
+            let element = form.elements[i];
+            if (element.type !== "submit") {
+                formData[element.name] = element.value;
+            }
+        }
+        let jsonData = JSON.stringify(formData);
+        let jsonOutput = document.getElementById("jsonOutput");
+        jsonOutput.innerHTML = "<pre>" + jsonData + "</pre>";
+                const fs = require('fs');
+
+                 console.log('name:'+name);
+
+       fs.writeFile('data.json', jsonData, (err) => {
+          if (err) {
+              console.error('Error writing file:', err);
+          } else {
+              console.log('Data written to output.json');
+          }
+      });
+    }
+
+  
+   //   document(onclick)({
+   // 'use strict';
+
+   //   const fs = require('fs');
+
+   //  let student = {
+   //      name: 'Mike',
+   //      age: 25,
+   //      gender: 'Male',
+   //      department: 'English',
+   //      car: 'Honda'
+   //  };
+
+   //  let data = JSON.stringify(student);
+
+   //  fs.writeFileSync('New.json', jsonData, finished);
+
+   //  function finished(err)
+   //  {
+   //      console.log('success');
+   //  }
+   //   });
+</script>
